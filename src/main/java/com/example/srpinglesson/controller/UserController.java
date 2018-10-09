@@ -4,46 +4,55 @@ package com.example.srpinglesson.controller;
 import com.example.srpinglesson.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.awt.peer.ListPeer;
+import org.springframework.web.bind.annotation.RequestMethod;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 @Controller
 public class UserController {
 
-
     private static final List<User> listUsers = new ArrayList<>();
 
     //localhost:8080/user/vlad
-    @RequestMapping("/user/{name}")
-    public String showUserByName(@PathVariable String name, Model model) {
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String showUserByName(Model model) {
 
-        //pass string to view
-        model.addAttribute("name", name);
+        model.addAttribute("users", listUsers);
 
-        User user = new User(name, 20);
+        return "user";
+    }
 
-        //pass object to view
-        model.addAttribute("user", user);
-
-
-        //pass list of objects<User> to view
-        List<User> userList = new ArrayList<>();
-        userList.add(new User("test1", 12));
-        userList.add(new User("test2", 15));
-        userList.add(new User("test3", 16));
-        userList.add(new User("test4", 17));
-        userList.add(new User("test5", 13));
-        userList.add(new User("test6", 30));
-
-        model.addAttribute("users", userList);
+    @RequestMapping(value = "/user/{user}", method = RequestMethod.POST)
+    public String showUserAndAddNewUser(User user, Model model) {
+        listUsers.add(user);
+        model.addAttribute("users", listUsers);
 
         return "user";
     }
 
 
+    @RequestMapping(value = "/addUser", method = RequestMethod.GET)
+    public String addUser(){
+
+        return "addUser";
+    }
+
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    public String addUserSave(@PathParam("name") String name, @PathParam("age") int age){
+        User user = new User(name,age);
+        listUsers.add(user);
+
+        return "redirect:/user";
+    }
+
+    @RequestMapping(value = {"/","index"}, method = RequestMethod.GET)
+    public String index(){
+
+        return "index";
+    }
 }
+
+
