@@ -8,15 +8,27 @@
     <div>
         <legend>Add user</legend>
             <br>
-            <form name="user" action="" method="POST">
+
+        <fieldset>
+            <form action="/addUser" name="User" method="post">
                 <label>Name:
-                <input name="name" type="text">
+                    <input name="name" type="text">
+                    <br>
+                <#if nameError??>
+                    ${nameError}
+                </#if>
                     <br>
                 <label>Age:
-                <input name="age" type="text">
-                    <br><br>
+                    <input name="age" type="number">
+                    <br>
+                <#if ageError??>
+                    ${ageError}
+                </#if>
+                    <br>
                 <input type="submit" value="Add" />
             </form>
+        </fieldset>
+
     </div>
 </body>
 </html>
