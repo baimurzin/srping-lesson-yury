@@ -18,12 +18,16 @@
             <tr>
                 <td>${u.name}</td>
                 <td>${u.age}</td>
-                    <form name="deleteUser" action="/user/delete/" method="post">
-                        <td><button name="delete" onclick="location.href'/user/delete/'${u}">delete</button> </td>
-                    </form>
-                    <form name="deleteUser" action="/user/delete/" method="post">
+                    <form name="deleteUser" action="/delete" method="post">
                         <td>
-                            <input type="submit" value="${u}">
+                            <input type="submit" value="Delete">
+                            <input type="hidden" name="name" value="${u.name}">
+                            <input type="hidden" name="age" value="${u.age}">
+                        </td>
+                    </form>
+                    <form name="editUser" action="/editUser/" method="get">
+                        <td>
+                            <input type="submit" value="Edit">
                             <input type="hidden" name="name" value="${u.name}">
                             <input type="hidden" name="age" value="${u.age}">
                         </td>

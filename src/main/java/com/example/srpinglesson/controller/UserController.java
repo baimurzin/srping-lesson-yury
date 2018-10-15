@@ -23,7 +23,7 @@ public class UserController {
         return "user";
     }
 
-    @PostMapping("/user/delete/")
+    @PostMapping("/delete")
     public String deleteUser(User user, Model model) {
         listUsers.remove(user);
         model.addAttribute("users", listUsers);
@@ -41,22 +41,45 @@ public class UserController {
             if (result.hasFieldErrors("name")){
                 model.addAttribute("nameError",result.getFieldError("name").getDefaultMessage());
             }
-            if (result.hasFieldErrors("age")){
-                try {
-                    Integer.parseInt(result.getFieldError("age").getRejectedValue().toString());
-                }catch (NumberFormatException e){
-                    model.addAttribute("ageError", new String("Введите целое число"));
-                    return "addUser";
-                }catch (Exception e){
-                    model.addAttribute("ageError", new String("Что-то пошло не так."));
-                    return "addUser";
-                }
-                model.addAttribute("ageError",result.getFieldError("age").getDefaultMessage());
-            }
+            validateInputForm(result, model);
             return "addUser";
         }else {
             listUsers.add(user);
-            return "redirect:/user";
+            return "redirect:user";
+        }
+    }
+
+    @GetMapping("/editUser")
+    public String formEditUserToList(User user, Model model){
+        int id = listUsers.indexOf(user);
+        model.addAttribute("id", id);
+        model.addAttribute("User",user);
+        return "editUser";
+    }
+
+    @PostMapping("/editUser")
+    public String editUserToList(@ModelAttribute("User") @Valid User user, int id, BindingResult result, Model model){
+        if (result.hasErrors()){
+            if (result.hasFieldErrors("name")){
+                model.addAttribute("nameError",result.getFieldError("name").getDefaultMessage());
+            }
+            validateInputForm(result, model);
+            return "addUser";
+        }else {
+            listUsers.remove(id);
+            listUsers.add(id,user);
+            return "redirect:user";
+        }
+    }
+
+    private void validateInputForm(BindingResult result, Model model) {
+        if (result.hasFieldErrors("age")){
+            try {
+                Integer.parseInt(result.getFieldError("age").getRejectedValue().toString());
+            }catch (NumberFormatException e){
+                throw new NullPointerException("Введите целое число");
+            }
+            model.addAttribute("ageError",result.getFieldError("age").getDefaultMessage());
         }
     }
 
