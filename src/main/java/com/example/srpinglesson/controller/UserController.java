@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,15 +71,20 @@ public class UserController {
         }
     }
 
-    private void validateInputForm(BindingResult result, Model model) {
+    private String validateInputForm(BindingResult result, Model model) {
         if (result.hasFieldErrors("age")){
             try {
                 Integer.parseInt(result.getFieldError("age").getRejectedValue().toString());
             }catch (NumberFormatException e){
-                throw new NullPointerException("Введите целое число");
+                model.addAttribute("ageError", new String("Введите целое число"));
+                return "addUser";
+            }catch (Exception e){
+                model.addAttribute("ageError", new String("Что-то пошло не так."));
+                return "addUser";
             }
             model.addAttribute("ageError",result.getFieldError("age").getDefaultMessage());
         }
+        return "addUser";
     }
 
     @RequestMapping(value = {"/","index"}, method = RequestMethod.GET)
