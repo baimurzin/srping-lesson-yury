@@ -1,7 +1,9 @@
 package com.example.srpinglesson.controller;
 
 
+import com.example.srpinglesson.Service.UserService;
 import com.example.srpinglesson.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,17 +16,26 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    private UserService service;
+
+    @Autowired
+    public void setUserService(UserService service){
+        this.service = service;
+    }
+
     private static final List<User> listUsers = new ArrayList<>();
 
     @GetMapping("/user")
     public String showUserByName(Model model) {
-        model.addAttribute("users", listUsers);
+        model.addAttribute("users",service.findAll());
+        //model.addAttribute("users", listUsers);
         return "user";
     }
 
     @PostMapping("/delete")
     public String deleteUser(User user, Model model) {
-        listUsers.remove(user);
+
+        //listUsers.remove(user);
         model.addAttribute("users", listUsers);
         return "user";
     }
@@ -43,7 +54,8 @@ public class UserController {
             validateInputForm(result, model);
             return "addUser";
         }else {
-            listUsers.add(user);
+            service.saveUser(user);
+            //listUsers.add(user);
             return "redirect:user";
         }
     }
@@ -65,8 +77,9 @@ public class UserController {
             validateInputForm(result, model);
             return "addUser";
         }else {
-            listUsers.remove(id);
-            listUsers.add(id,user);
+            service.updateUser(id,user.getName(),user.getAge());
+            //listUsers.remove(id);
+            //listUsers.add(id,user);
             return "redirect:user";
         }
     }

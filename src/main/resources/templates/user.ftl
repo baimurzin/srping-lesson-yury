@@ -16,6 +16,7 @@
         </tr>
         <#list users as u>
             <tr>
+                <td>${u.id}</td>
                 <td>${u.name}</td>
                 <td>${u.age}</td>
                     <form name="deleteUser" action="/delete" method="post">
