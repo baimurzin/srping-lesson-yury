@@ -28,15 +28,13 @@ public class UserController {
     @GetMapping("/user")
     public String showUserByName(Model model) {
         model.addAttribute("users",service.findAll());
-        //model.addAttribute("users", listUsers);
         return "user";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(User user, Model model) {
-
-        //listUsers.remove(user);
-        model.addAttribute("users", listUsers);
+    public String deleteUser(int id, Model model) {
+        service.deleteUser(id);
+        model.addAttribute("users", service.findAll());
         return "user";
     }
 
@@ -55,31 +53,27 @@ public class UserController {
             return "addUser";
         }else {
             service.saveUser(user);
-            //listUsers.add(user);
             return "redirect:user";
         }
     }
 
     @GetMapping("/editUser")
     public String formEditUserToList(User user, Model model){
-        int id = listUsers.indexOf(user);
-        model.addAttribute("id", id);
         model.addAttribute("User",user);
         return "editUser";
     }
 
     @PostMapping("/editUser")
-    public String editUserToList(@ModelAttribute("User") @Valid User user, int id, BindingResult result, Model model){
+    public String editUserToList(@ModelAttribute("User") @Valid User user, BindingResult result, Model model){
         if (result.hasErrors()){
             if (result.hasFieldErrors("name")){
                 model.addAttribute("nameError",result.getFieldError("name").getDefaultMessage());
             }
             validateInputForm(result, model);
+            model.addAttribute("User",user);
             return "addUser";
         }else {
-            service.updateUser(id,user.getName(),user.getAge());
-            //listUsers.remove(id);
-            //listUsers.add(id,user);
+            service.updateUser(user.getId(),user.getName(),user.getAge());
             return "redirect:user";
         }
     }

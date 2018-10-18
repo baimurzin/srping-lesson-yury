@@ -8,14 +8,14 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users", schema = "'user'")
+@Table(name = "\"users\"", schema = "\"user\"")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     int id;
 
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 64)
     @Column(name = "name")
     private String name;
 
