@@ -1,10 +1,9 @@
-package com.example.srpinglesson.Service;
+package com.example.srpinglesson.service;
 
 import com.example.srpinglesson.model.User;
 import com.example.srpinglesson.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -34,15 +33,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(Integer id, String name, int age) {
-        Optional<User> user = this.repository.findById(id);
-        if (user.isPresent()){
-            User newUser = user.get();
-            newUser.setName(name);
-            newUser.setAge(age);
-            repository.save(newUser);
-        }
-
+    public void updateUser(User user) {
+        repository.save(user);
     }
 
     @Override

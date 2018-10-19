@@ -1,7 +1,6 @@
 package com.example.srpinglesson.controller;
 
-
-import com.example.srpinglesson.Service.UserService;
+import com.example.srpinglesson.service.UserService;
 import com.example.srpinglesson.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Controller
 public class UserController {
@@ -22,8 +18,6 @@ public class UserController {
     public void setUserService(UserService service){
         this.service = service;
     }
-
-    private static final List<User> listUsers = new ArrayList<>();
 
     @GetMapping("/user")
     public String showUserByName(Model model) {
@@ -73,7 +67,7 @@ public class UserController {
             model.addAttribute("User",user);
             return "addUser";
         }else {
-            service.updateUser(user.getId(),user.getName(),user.getAge());
+            service.updateUser(user);
             return "redirect:user";
         }
     }

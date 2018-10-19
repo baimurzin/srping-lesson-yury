@@ -14,7 +14,7 @@
                 <label>Name:
                     <input name="name" type="text">
                     <br>
-                    <p id="errName"></p>
+                    <p id="errName" style="color: red"></p>
                 <#if nameError??>
                     ${nameError}
                 </#if>
@@ -22,7 +22,7 @@
                 <label>Age:
                     <input name="age" type="number">
                     <br>
-                    <p id="errAge"></p>
+                    <p id="errAge" style="color: red"></p>
                 <#if ageError??>
                     ${ageError}
                 </#if>
