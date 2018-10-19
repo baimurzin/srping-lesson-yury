@@ -1,17 +1,28 @@
 package com.example.srpinglesson.model;
 
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users", schema = "\"user\"")
 public class User {
-    @Size(min = 1, max = 32)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    int id;
+
+    @Size(min = 1, max = 64)
+    @Column(name = "name")
     private String name;
+
     @NotNull
     @Min(18)
     @Max(120)
+    @Column(name = "age")
     private int age;
 
     public User() {
@@ -20,6 +31,14 @@ public class User {
     public User(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

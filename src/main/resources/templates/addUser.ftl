@@ -5,15 +5,16 @@
     <title>Add new user</title>
 </head>
 <body>
+<script src="/js/validationUserFormInput.js"></script>
     <div>
         <legend>Add user</legend>
             <br>
-
         <fieldset>
-            <form action="/addUser" name="User" method="post">
+            <form onsubmit="return validateUser()" action="/addUser" name="User" method="post">
                 <label>Name:
                     <input name="name" type="text">
                     <br>
+                    <p id="errName" style="color: red"></p>
                 <#if nameError??>
                     ${nameError}
                 </#if>
@@ -21,6 +22,7 @@
                 <label>Age:
                     <input name="age" type="number">
                     <br>
+                    <p id="errAge" style="color: red"></p>
                 <#if ageError??>
                     ${ageError}
                 </#if>
@@ -28,7 +30,6 @@
                 <input type="submit" value="Add" />
             </form>
         </fieldset>
-
     </div>
 </body>
 </html>

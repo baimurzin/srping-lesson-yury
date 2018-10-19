@@ -2,30 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add new user</title>
+    <title>Edit user</title>
 </head>
 <body>
+<script src="/js/validationUserFormInput.js"></script>
 <div>
     <legend>Edit user</legend>
     <br>
-
     <fieldset>
-        <form action="/editUser" name="User" method="post">
-            <label>Name:
+        <form onsubmit="return validateUser()" action="/editUser" name="User" method="post">
+            <label>New name:
                 <input name="name" type="text" value="${User.name}">
                 <br>
-                <#if nameError??>
-                    ${nameError}
-                </#if>
+                <p id="errName" style="color: red"></p>
+                    <#if nameError??>
+                        ${nameError}
+                    </#if>
                 <br>
-                <label>Age:
-                    <input name="age" type="number" value="${User.age}">
+            <label>New age:
+                <input name="age" type="number" value="${User.age}">
                     <br>
-                <#if ageError??>
-                    ${ageError}
-                </#if>
-                    <br>
-                    <input type="hidden" name="id" value="${id}">
+                    <p id="errAge" style="color: red"></p>
+                    <#if ageError??>
+                        ${ageError}
+                    </#if>
+                <br>
+                <input type="hidden" name="id" value="${User.id}">
                 <input type="submit" value="Edit" />
         </form>
     </fieldset>
