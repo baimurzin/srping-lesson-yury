@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add new user</title>
+    <script src="/js/jQuery.js"></script>
 </head>
 <body>
 <script src="/js/validationUserFormInput.js"></script>
@@ -10,9 +11,9 @@
         <legend>Add user</legend>
             <br>
         <fieldset>
-            <form onsubmit="return validateUser()" action="/addUser" name="User" method="post">
+            <form onsubmit="validateUser()" action="/addUser" name="User" method="post">
                 <label>Name:
-                    <input name="name" type="text">
+                    <input id="name" name="name" type="text">
                     <br>
                     <p id="errName" style="color: red"></p>
                 <#if nameError??>
@@ -20,7 +21,7 @@
                 </#if>
                     <br>
                 <label>Age:
-                    <input name="age" type="number">
+                    <input id="age" name="age" type="number">
                     <br>
                     <p id="errAge" style="color: red"></p>
                 <#if ageError??>

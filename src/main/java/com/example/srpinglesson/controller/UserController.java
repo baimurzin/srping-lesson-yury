@@ -1,5 +1,6 @@
 package com.example.srpinglesson.controller;
 
+import com.example.srpinglesson.model.ResponseFindUserName;
 import com.example.srpinglesson.service.UserService;
 import com.example.srpinglesson.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,18 @@ public class UserController {
             validateInputForm(result, model);
             return "addUser";
         }else {
-            service.saveUser(user);
-            return "redirect:user";
+            try {
+                if (service.findName(user.getName()) != null){
+                    service.saveUser(user);
+                    return "redirect:user";
+                }
+            } catch (Exception e) {
+                model.addAttribute("nameError",e.getLocalizedMessage());
+                validateInputForm(result, model);
+                return "addUser";
+            }
+            validateInputForm(result, model);
+            return "addUser";
         }
     }
 
@@ -86,6 +97,25 @@ public class UserController {
             model.addAttribute("ageError",result.getFieldError("age").getDefaultMessage());
         }
         return "addUser";
+    }
+
+    @PostMapping("/check")
+    @ResponseBody
+    public ResponseFindUserName checkUser(String name){
+        User user = null;
+        try {
+            user = service.findName(name);
+        } catch (Exception e) {
+            String result = e.getMessage();
+            return new ResponseFindUserName("Error",result);
+        }
+        if (user != null){
+            String result = "true";
+            return new ResponseFindUserName("Done",result);
+        }else {
+            String result = "false";
+            return new ResponseFindUserName("Done",result);
+        }
     }
 
     @RequestMapping(value = {"/","index"}, method = RequestMethod.GET)

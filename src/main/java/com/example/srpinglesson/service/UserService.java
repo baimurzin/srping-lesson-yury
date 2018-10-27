@@ -10,4 +10,5 @@ public interface UserService {
         void updateUser(User user);
         void deleteUser(Integer id);
         List<User> findAll();
+        User findName(String name) throws Exception;
 }

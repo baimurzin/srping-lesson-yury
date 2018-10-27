@@ -32,5 +32,29 @@ function validateUser() {
     }else {
         return false;
     }
-
 }
+
+$(document).ready(function () {
+    $("#name").focusout(function () {
+        var name = $("#name").val();
+        if (name.length > 0){
+            $.ajax({
+                type: "POST",
+                url: "/check",
+                data: "name=" + name,
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status === "Done") {
+                        if (result.data==="true") {
+                            $("#errName").text("Пользователь с таким именем уже существует.");
+                        } else {
+                            $("#errName").text("");
+                        }
+                    } else {
+                        $("#errName").text(result.data);
+                    }
+                }
+            });
+        }
+    })
+});
