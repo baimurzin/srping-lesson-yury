@@ -11,22 +11,22 @@
         <legend>Add user</legend>
             <br>
         <fieldset>
-            <form onsubmit="validateUser()" action="/addUser" name="User" method="post">
+            <form onsubmit="return validateUser()" action="/addUser" name="User" method="post">
                 <label>Name:
                     <input id="name" name="name" type="text">
                     <br>
+                     <#if nameError??>
+                        ${nameError}
+                    </#if>
                     <p id="errName" style="color: red"></p>
-                <#if nameError??>
-                    ${nameError}
-                </#if>
                     <br>
                 <label>Age:
                     <input id="age" name="age" type="number">
                     <br>
+                     <#if ageError??>
+                          ${ageError}
+                     </#if>
                     <p id="errAge" style="color: red"></p>
-                <#if ageError??>
-                    ${ageError}
-                </#if>
                     <br>
                 <input type="submit" value="Add" />
             </form>

@@ -1,5 +1,6 @@
 package com.example.srpinglesson.service;
 
+import com.example.srpinglesson.exeptions.SeveralFindUsersException;
 import com.example.srpinglesson.model.User;
 import com.example.srpinglesson.repository.UserRepository;
 import org.hibernate.NonUniqueResultException;
@@ -50,14 +51,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findName(String name) throws Exception {
+    public List<User> findAllOrderById() {
+        return repository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public User findName(String name) throws SeveralFindUsersException {
         User user = null;
         try {
             user = repository.findByName(name);
         }catch (NonUniqueResultException e){
-            throw new Exception("Найдено несколько записей");
+            throw new SeveralFindUsersException("Найдено несколько записей");
         }
         return user;
     }
-
 }

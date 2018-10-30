@@ -1,6 +1,7 @@
 package com.example.srpinglesson.controller;
 
-import com.example.srpinglesson.model.ResponseFindUserName;
+import com.example.srpinglesson.exeptions.SeveralFindUsersException;
+import com.example.srpinglesson.model.Response;
 import com.example.srpinglesson.service.UserService;
 import com.example.srpinglesson.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserController {
 
     @GetMapping("/user")
     public String showUserByName(Model model) {
-        model.addAttribute("users",service.findAll());
+        model.addAttribute("users",service.findAllOrderById());
         return "user";
     }
 
@@ -48,17 +49,20 @@ public class UserController {
             return "addUser";
         }else {
             try {
-                if (service.findName(user.getName()) != null){
+                User findUser = service.findName(user.getName());
+                if (findUser == null){
                     service.saveUser(user);
                     return "redirect:user";
+                }else {
+                    model.addAttribute("nameError","Пользователь уже существует");
+                    validateInputForm(result, model);
+                    return "addUser";
                 }
-            } catch (Exception e) {
-                model.addAttribute("nameError",e.getLocalizedMessage());
+            } catch (SeveralFindUsersException e) {
+                model.addAttribute("nameError",e.getMessage());
                 validateInputForm(result, model);
                 return "addUser";
             }
-            validateInputForm(result, model);
-            return "addUser";
         }
     }
 
@@ -101,20 +105,20 @@ public class UserController {
 
     @PostMapping("/check")
     @ResponseBody
-    public ResponseFindUserName checkUser(String name){
+    public Response checkUser(String name){
         User user = null;
         try {
             user = service.findName(name);
         } catch (Exception e) {
             String result = e.getMessage();
-            return new ResponseFindUserName("Error",result);
+            return new Response("Error",result);
         }
         if (user != null){
             String result = "true";
-            return new ResponseFindUserName("Done",result);
+            return new Response("Done",result);
         }else {
             String result = "false";
-            return new ResponseFindUserName("Done",result);
+            return new Response("Done",result);
         }
     }
 

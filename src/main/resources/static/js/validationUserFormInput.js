@@ -37,7 +37,8 @@ function validateUser() {
 $(document).ready(function () {
     $("#name").focusout(function () {
         var name = $("#name").val();
-        if (name.length > 0){
+        if (name.length > 1){
+            $("input[type=submit]").attr("disabled", true);
             $.ajax({
                 type: "POST",
                 url: "/check",
@@ -49,6 +50,7 @@ $(document).ready(function () {
                             $("#errName").text("Пользователь с таким именем уже существует.");
                         } else {
                             $("#errName").text("");
+                            $("input[type=submit]").attr("disabled",false);
                         }
                     } else {
                         $("#errName").text(result.data);

@@ -1,14 +1,14 @@
 package com.example.srpinglesson.model;
 
-public class ResponseFindUserName {
+public class Response{
     private String status;
     private Object data;
 
-    public ResponseFindUserName(){
+    public Response(){
 
     }
 
-    public ResponseFindUserName(String status, Object data){
+    public Response(String status, Object data){
         this.status = status;
         this.data = data;
     }
