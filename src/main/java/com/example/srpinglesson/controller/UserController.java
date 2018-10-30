@@ -1,7 +1,8 @@
 package com.example.srpinglesson.controller;
 
 import com.example.srpinglesson.exeptions.SeveralFindUsersException;
-import com.example.srpinglesson.model.Response;
+import com.example.srpinglesson.model.AuthUser;
+import com.example.srpinglesson.service.AuthUserService;
 import com.example.srpinglesson.service.UserService;
 import com.example.srpinglesson.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,15 @@ import javax.validation.Valid;
 public class UserController {
 
     private UserService service;
+    private AuthUserService authUserService;
 
     @Autowired
     public void setUserService(UserService service){
         this.service = service;
+    }
+    @Autowired
+    public void setAuthUserService(AuthUserService authUserService){
+        this.authUserService = authUserService;
     }
 
     @GetMapping("/user")
@@ -122,9 +128,20 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = {"/","index"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/","index"})
     public String index(){
         return "index";
+    }
+
+    @GetMapping("/registration")
+    public String registration(){
+        return "registration";
+    }
+
+    @PostMapping("/refistration")
+    public String registrationUser(AuthUser authUser){
+
+        return "redirect:/";
     }
 }
 

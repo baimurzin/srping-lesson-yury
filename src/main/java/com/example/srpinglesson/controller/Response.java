@@ -1,4 +1,4 @@
-package com.example.srpinglesson.model;
+package com.example.srpinglesson.controller;
 
 public class Response{
     private String status;
