@@ -14,24 +14,23 @@
             <label>New name:
                 <input name="name" type="text" value="${User.name}">
                 <br>
+                <#if nameError??>
+                     ${nameError}
+                </#if>
                 <p id="errName" style="color: red"></p>
-                    <#if nameError??>
-                        ${nameError}
-                    </#if>
                 <br>
             <label>New age:
                 <input name="age" type="number" value="${User.age}">
                     <br>
-                    <p id="errAge" style="color: red"></p>
                     <#if ageError??>
                         ${ageError}
                     </#if>
+                    <p id="errAge" style="color: red"></p>
                 <br>
                 <input type="hidden" name="id" value="${User.id}">
                 <input type="submit" value="Edit" />
         </form>
     </fieldset>
-
 </div>
 </body>
 </html>

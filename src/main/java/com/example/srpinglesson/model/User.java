@@ -57,6 +57,14 @@ public class User {
         this.age = age;
     }
 
+    public String toJson(){
+        return "{" +
+                "\"id:\"" + id +
+                "\",name:\"" + name +
+                "\",age:\"" + age +
+                "}";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

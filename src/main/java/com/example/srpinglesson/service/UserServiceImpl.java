@@ -1,7 +1,9 @@
 package com.example.srpinglesson.service;
 
+import com.example.srpinglesson.exeptions.SeveralFindUsersException;
 import com.example.srpinglesson.model.User;
 import com.example.srpinglesson.repository.UserRepository;
+import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -46,5 +48,21 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<User> findAllOrderById() {
+        return repository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public User findName(String name) throws SeveralFindUsersException {
+        User user = null;
+        try {
+            user = repository.findByName(name);
+        }catch (NonUniqueResultException e){
+            throw new SeveralFindUsersException("Найдено несколько записей");
+        }
+        return user;
     }
 }
