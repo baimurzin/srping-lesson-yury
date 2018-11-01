@@ -7,12 +7,13 @@
 </head>
 <body>
     <fieldset>
-            <br><label>User name</label><br>
-        <input id="userName" type="text">
+        <form id="login" action="/login" method="post">
+            <label>Login</label><br>
+                <input name="login" id="login" type="text">
             <br><label>Password</label><br>
-        <input id="userPassword" type="password">
-            <br>
-        <button type="submit">Login</button>
+                <input name="password" id="password" type="password">
+            <br><input type="submit" value="login">
+        </form>
     </fieldset>
 </body>
 </html>

@@ -38,6 +38,6 @@
     </table>
 <br><br>
     <a href="addUser">Add new user</a>
-
+    <a href="/logout">Logout</a>
 </body>
 </html>

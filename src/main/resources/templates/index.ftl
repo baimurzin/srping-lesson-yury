@@ -6,9 +6,12 @@
 </head>
 <body>
     <dev>
-        <a href="user">List users</a>
-        <br>
-        <a href="addUser">Add new user</a>
+        <table border="1" align="center">
+            <th width="100"><a href="/user">List users</a></th>
+            <th width="100"><a href="/addUser">Add new user</a></th>
+            <th width="100"><a href="/registration">Registration</a></th>
+            <th width="100"><a href="/login">Login</a></th>
+        </table>
     </dev>
 </body>
 </html>

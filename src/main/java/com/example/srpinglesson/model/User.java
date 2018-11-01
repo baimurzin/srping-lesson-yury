@@ -12,7 +12,6 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     int id;
 
     @Size(min = 1, max = 64)

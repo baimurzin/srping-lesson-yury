@@ -2,6 +2,7 @@ package com.example.srpinglesson.controller;
 
 import com.example.srpinglesson.exeptions.SeveralFindUsersException;
 import com.example.srpinglesson.model.AuthUser;
+import com.example.srpinglesson.model.Response;
 import com.example.srpinglesson.service.AuthUserService;
 import com.example.srpinglesson.service.UserService;
 import com.example.srpinglesson.model.User;
@@ -19,34 +20,31 @@ public class UserController {
     private AuthUserService authUserService;
 
     @Autowired
-    public void setUserService(UserService service){
+    public void setService(UserService service, AuthUserService authUserService){
         this.service = service;
-    }
-    @Autowired
-    public void setAuthUserService(AuthUserService authUserService){
         this.authUserService = authUserService;
     }
 
     @GetMapping("/user")
-    public String showUserByName(Model model) {
+    public String showAllUsers(Model model) {
         model.addAttribute("users",service.findAllOrderById());
         return "user";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(int id, Model model) {
+    public String deleteUserFromDB(int id, Model model) {
         service.deleteUser(id);
         model.addAttribute("users", service.findAll());
         return "user";
     }
 
     @GetMapping("/addUser")
-    public String formAddUser(){
+    public String showFormAddUser(){
         return "addUser";
     }
 
     @PostMapping("/addUser")
-    public String saveUserToList(@ModelAttribute("User") @Valid User user, BindingResult result, Model model){
+    public String saveUserToDB(@ModelAttribute("User") @Valid User user, BindingResult result, Model model){
         if (result.hasErrors()){
             if (result.hasFieldErrors("name")){
                 model.addAttribute("nameError",result.getFieldError("name").getDefaultMessage());
@@ -73,13 +71,13 @@ public class UserController {
     }
 
     @GetMapping("/editUser")
-    public String formEditUserToList(User user, Model model){
+    public String showFormEditUser(User user, Model model){
         model.addAttribute("User",user);
         return "editUser";
     }
 
     @PostMapping("/editUser")
-    public String editUserToList(@ModelAttribute("User") @Valid User user, BindingResult result, Model model){
+    public String editUserFromDB(@ModelAttribute("User") @Valid User user, BindingResult result, Model model){
         if (result.hasErrors()){
             if (result.hasFieldErrors("name")){
                 model.addAttribute("nameError",result.getFieldError("name").getDefaultMessage());
@@ -111,7 +109,7 @@ public class UserController {
 
     @PostMapping("/check")
     @ResponseBody
-    public Response checkUser(String name){
+    public Response AjaxCheckExistUser(String name){
         User user = null;
         try {
             user = service.findName(name);
@@ -134,14 +132,18 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String registration(){
+    public String showRegistrationForm(){
         return "registration";
     }
 
-    @PostMapping("/refistration")
-    public String registrationUser(AuthUser authUser){
+    @PostMapping("/registration")
+    public String registrationNewUserToDB(AuthUser authUser){
+        return "redirect:login";
+    }
 
-        return "redirect:/";
+    @GetMapping("/login")
+    public String loginUser(){
+        return "login";
     }
 }
 

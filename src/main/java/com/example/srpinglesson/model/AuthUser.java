@@ -16,17 +16,17 @@ public class AuthUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    @Min(2)
-    @Max(32)
+    @Min(value = 2, message = "Именя должно быть больше 2 символов.")
+    @Max(value = 32, message = "Именя должно быть меньше 32 символов.")
     @Column(name = "login")
     private String login;
 
     @Column(name = "password")
-    @Min(5)
+    @Min(value = 5, message = "Пароль должен состоять не менее чем из 5 символов.")
     private String password;
 
     @Column(name = "email")
-    @Email
+    @Email(message = "Не правильно заполненно поле email.")
     private String email;
 
     @Column(name = "active")
@@ -72,6 +72,14 @@ public class AuthUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

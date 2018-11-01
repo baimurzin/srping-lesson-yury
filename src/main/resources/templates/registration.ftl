@@ -13,11 +13,10 @@
     <input id="userName" type="text">
     <br><label>Password</label><br>
     <input id="userPassword" type="password">
-    <br>
     <br><label>Confirm Password</label><br>
     <input id="userPassword" type="password">
     <br>
-    <button type="submit">Login</button>
+    <button type="submit">Registration</button>
 </fieldset>
 </body>
 </html>
