@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
@@ -23,37 +24,51 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/", "/registration", "/login")
+//                    .permitAll()
+//                .antMatchers("/addUser","/editUser","/user")
+//                    .access("hasRole('ADMIN') and hasRole('USER')")
+//                .antMatchers("/authUser")
+//                    .access("hasRole('ADMIN')")
+//        .and().formLogin().loginPage("/login")
+//                    .permitAll()
+//        .and().logout()
+//                    .permitAll();
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/registration", "/login")
-                    .permitAll()
-                .antMatchers("/addUser","/editUser","/user")
-                    .access("hasRole('ADMIN') and hasRole('USER')")
-                .antMatchers("/authUser")
-                    .access("hasRole('ADMIN')")
-        .and().formLogin().loginPage("/login")
-                    .permitAll()
-        .and().logout()
-                    .permitAll();
+        http.authorizeRequests().antMatchers("/addUser","/editUser","/user").hasAnyRole("ADMIN","USER").
+                and().formLogin();
     }
 
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        return new InMemoryUserDetailsManager(user);
+        final User.UserBuilder userBuilder = User.builder().passwordEncoder(encoder::encode);
+        UserDetails user = userBuilder
+                .username("user")
+                .password("user")
+                .roles("USER")
+                .build();
+
+        UserDetails admin = userBuilder
+                .username("admin")
+                .password("admin")
+                .roles("USER","ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
     /*@Override

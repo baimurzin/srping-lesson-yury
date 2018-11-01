@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthUserServiceImpl implements AuthUserService{
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private AuthUserRepository authUserRepository;
 
-    @Autowired
+//    @Autowired
     public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder){
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
