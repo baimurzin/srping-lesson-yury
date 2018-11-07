@@ -9,7 +9,7 @@
     <fieldset>
         <form id="login" action="/login" method="post">
             <label>Login</label><br>
-                <input name="login" id="login" type="text">
+                <input name="username" id="login" type="text">
             <br><label>Password</label><br>
                 <input name="password" id="password" type="password">
             <br><input type="submit" value="login">

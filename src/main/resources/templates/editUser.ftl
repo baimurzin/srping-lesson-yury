@@ -6,6 +6,9 @@
 </head>
 <body>
 <script src="/js/validationUserFormInput.js"></script>
+<br>
+<a href="/logout">Logout</a>
+<br>
 <div>
     <legend>Edit user</legend>
     <br>

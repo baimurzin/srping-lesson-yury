@@ -5,9 +5,10 @@
     <title>List users</title>
 </head>
 <body>
-<br><br>
+<br>
+<a href="/logout">Logout</a>
+<br>
 <tr></tr>
-
     <table border="1">
         <tr>
             <th>id</th>

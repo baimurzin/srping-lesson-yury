@@ -6,29 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthUserServiceImpl implements AuthUserService{
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    @Autowired
     private AuthUserRepository authUserRepository;
-
-    @Autowired
-    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder){
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-    @Autowired
-    public void setAuthUserRepository(AuthUserRepository repository){
-        this.authUserRepository = repository;
-    }
 
     @Override
     public void saveAuthUser(AuthUser authUser) {
-        authUser.setPassword(bCryptPasswordEncoder.encode(authUser.getPassword()));
+        authUser.setPassword(passwordEncoder().encode(authUser.getPassword()));
         authUserRepository.save(authUser);
     }
 
     @Override
     public void deleteById(int id) {
         authUserRepository.deleteById(id);
+    }
+
+    @Override
+    public AuthUser findByLogin(String login) {
+        return authUserRepository.findByLogin(login);
+    }
+
+    @Override
+    public List<AuthUser> findAll() {
+        return authUserRepository.findAll();
     }
 }

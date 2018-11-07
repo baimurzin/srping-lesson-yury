@@ -7,69 +7,45 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
-
+    @Bean
+    public UserDetailsService getUserDetailsService(){
+        return new AuthUserDetailServiceImp();
+    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    public void registerGlobalAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(getUserDetailsService())
+                .passwordEncoder(passwordEncoder());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/", "/registration", "/login")
-                    .permitAll()
-                .antMatchers("/addUser","/editUser","/user")
-                    .access("hasRole('ADMIN') and hasRole('USER')")
-                .antMatchers("/authUser")
-                    .access("hasRole('ADMIN')")
-        .and().formLogin().loginPage("/login")
-                    .permitAll()
-        .and().logout()
+                .antMatchers("/","/index", "/registration", "/login")
+                    .permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
+//        http.authorizeRequests()
+//                .antMatchers("/addUser","/editUser","/user")
+//                    .hasAnyRole("ROLE_ADMIN","ADMIN","USER");
+//        http.authorizeRequests()
+//                .antMatchers("/authUser")
+//                    .hasRole("ADMIN");
+        http.formLogin()
+                    .permitAll();
+        http.logout()
                     .permitAll();
     }
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    /*@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select login, password, active from \"user\".auth_users where login = ?")
-                .authoritiesByUsernameQuery("select au.login, ur.roles from \"user\".auth_users au inner join \"user\".roles ur on au.id = ur.user_id where au.login =?")
-                .passwordEncoder(passwordEncoder());
-    }*/
-
-/*    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER")
-                .and()
-                .withUser("admin").password("admin").roles("ADMIN");
-    }*/
 }

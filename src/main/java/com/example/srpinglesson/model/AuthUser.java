@@ -6,23 +6,25 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "authUsers", schema = "\"user\"")
+@Table(name = "auth_users", schema = "\"user\"")
 public class AuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    @Min(value = 2, message = "Именя должно быть больше 2 символов.")
-    @Max(value = 32, message = "Именя должно быть меньше 32 символов.")
+    @Size(min = 2, message = "Именя должно быть меньше 2 и больше 32 символов.",max = 32)
     @Column(name = "login")
     private String login;
 
     @Column(name = "password")
-    @Min(value = 5, message = "Пароль должен состоять не менее чем из 5 символов.")
+    @Size(min = 5, message = "Пароль должен состоять не менее чем из 5 символов.")
     private String password;
 
     @Column(name = "email")
@@ -30,17 +32,17 @@ public class AuthUser {
     private String email;
 
     @Column(name = "active")
-    boolean active;
+    private boolean active = true;
 
     @ElementCollection(targetClass = Roles.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "roles", schema = "\"user\"", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
 
-    public AuthUser() {
+        public AuthUser() {
     }
 
-    public AuthUser(@Min(2) @Max(32) String login, @Min(5) String password, @Email String email) {
+    public AuthUser(@Size(min =2, max = 32) String login, @Size(min = 5) String password, @Email String email) {
         this.login = login;
         this.password = password;
         this.email = email;
@@ -80,6 +82,18 @@ public class AuthUser {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public HashSet<Roles> getHashSetRoles(){
+          return new HashSet<>(roles);
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
     }
 
     @Override
