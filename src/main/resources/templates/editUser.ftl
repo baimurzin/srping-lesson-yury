@@ -6,9 +6,9 @@
 </head>
 <body>
 <script src="/js/validationUserFormInput.js"></script>
-<br>
-<a href="/logout">Logout</a>
-<br>
+<dev>
+     <#include "fragments/actionLine.ftl"><br>
+</dev>
 <div>
     <legend>Edit user</legend>
     <br>
@@ -19,9 +19,6 @@
                 <input type="submit" value="Edit" />
         </form>
     </fieldset>
-</div>
-<div>
-    <a href="/logout">Logout</a>
 </div>
 </body>
 </html>

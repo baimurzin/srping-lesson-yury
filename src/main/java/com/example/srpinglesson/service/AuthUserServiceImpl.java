@@ -35,6 +35,16 @@ public class AuthUserServiceImpl implements AuthUserService{
 
     @Override
     public List<AuthUser> findAll() {
-        return authUserRepository.findAll();
+        return authUserRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public AuthUser findById(int id) {
+        return authUserRepository.findById(id);
+    }
+
+    @Override
+    public void updateAuthUser(AuthUser authUser) {
+        authUserRepository.save(authUser);
     }
 }

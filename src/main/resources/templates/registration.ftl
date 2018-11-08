@@ -6,6 +6,9 @@
     <script src="/js/jQuery.js"></script>
 </head>
 <body>
+<dev>
+     <#include "fragments/actionLine.ftl"><br>
+</dev>
 <fieldset>
     <form action="/registration" method="post" name="registration">
         <br><label>Login</label><br>

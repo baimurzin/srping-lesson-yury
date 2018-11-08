@@ -7,6 +7,9 @@
 </head>
 <body>
 <script src="/js/validationUserFormInput.js"></script>
+    <dev>
+            <#include "fragments/actionLine.ftl"><br>
+    </dev>
     <div>
         <legend>Add user</legend>
             <br>
@@ -16,9 +19,6 @@
                 <input type="submit" value="Add" />
             </form>
         </fieldset>
-    </div>
-    <div>
-        <a href="/logout">Logout</a>
     </div>
 </body>
 </html>

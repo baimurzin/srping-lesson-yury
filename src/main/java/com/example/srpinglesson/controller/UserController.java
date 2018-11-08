@@ -100,10 +100,10 @@ public class UserController {
             try {
                 Integer.parseInt(result.getFieldError("age").getRejectedValue().toString());
             }catch (NumberFormatException e){
-                model.addAttribute("ageError", new String("Введите целое число"));
+                model.addAttribute("ageError", "Введите целое число");
                 return "addUser";
             }catch (Exception e){
-                model.addAttribute("ageError", new String("Что-то пошло не так."));
+                model.addAttribute("ageError", "Что-то пошло не так.");
                 return "addUser";
             }
             model.addAttribute("ageError",result.getFieldError("age").getDefaultMessage());
@@ -158,7 +158,7 @@ public class UserController {
             return "registration";
         }else {
             if (authUserService.findByLogin(authUser.getLogin()) == null) {
-                authUser.setActive(true);
+                authUser.setActive(false);
                 Set<Roles> roles = new HashSet<>();
                 roles.add(Roles.USER);
                 authUser.setRoles(roles);
@@ -187,13 +187,21 @@ public class UserController {
         return "authUser";
     }
     @PostMapping("/deleteAuthUser")
-    public String deleteAuthUserToId(){
-        return "deleteAuthUser";
+    public String deleteAuthUserToId(int id){
+        authUserService.deleteById(id);
+        return "redirect:authUser";
     }
 
     @PostMapping("/active")
-    public String activeAndDeactivatedAuthUUser(){
-        return "active";
+    public String activeAndDeactivatedAuthUUser(int id){
+        AuthUser authUser = authUserService.findById(id);
+        if (authUser.isActive()){
+            authUser.setActive(false);
+        }else {
+            authUser.setActive(true);
+        }
+        authUserService.updateAuthUser(authUser);
+        return "redirect:authUser";
     }
 }
 

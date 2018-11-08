@@ -9,4 +9,6 @@ public interface AuthUserService {
     void deleteById(int id);
     AuthUser findByLogin(String login);
     List<AuthUser> findAll();
+    AuthUser findById(int id);
+    void updateAuthUser(AuthUser authUser);
 }

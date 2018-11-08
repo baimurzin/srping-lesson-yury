@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -30,19 +31,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/","/index", "/registration", "/login")
                     .permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
-//        http.authorizeRequests()
-//                .antMatchers("/addUser","/editUser","/user")
-//                    .hasAnyRole("ROLE_ADMIN","ADMIN","USER");
-//        http.authorizeRequests()
-//                .antMatchers("/authUser")
-//                    .hasRole("ADMIN");
+        http.authorizeRequests()
+                .antMatchers("/addUser","/editUser","/user").access("hasAnyRole('USER','ADMIN')");
+//                    .hasAnyRole("ADMIN","USER");
+        http.authorizeRequests()
+                .antMatchers("/authUser").access("hasRole('ADMIN')");
+//                    .hasAnyRole("ADMIN");
         http.formLogin()
                     .permitAll();
         http.logout()

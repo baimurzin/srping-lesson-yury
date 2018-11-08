@@ -14,8 +14,9 @@ public class UtilEncodePassword {
             String password = "user";
             String adminPass = "123456";
             String encrytedPassword = encrytePassword(password);
-
-            System.out.println("Encryted Password: " + encrytedPassword);
+            String adminEncryptedPass = encrytePassword(adminPass);
+            System.out.println("Encrypted Password: " + encrytedPassword);
+            System.out.println("Encrypted Password: " + adminEncryptedPass);
         }
 
 }

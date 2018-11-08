@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 public class AuthUserDetailServiceImp implements UserDetailsService {
 
     @Autowired
@@ -35,7 +34,7 @@ public class AuthUserDetailServiceImp implements UserDetailsService {
                     .security
                     .core
                     .userdetails
-                    .User(authUser.getLogin().trim(), authUser.getPassword().trim(), grantedAuthorities);
+                    .User(authUser.getLogin().trim(), authUser.getPassword().trim(),true,true,true, authUser.isActive(), grantedAuthorities);
             }
     }
 }

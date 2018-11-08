@@ -5,9 +5,9 @@
     <title>List users</title>
 </head>
 <body>
-<br>
-<a href="/logout">Logout</a>
-<br>
+<dev>
+    <#include "fragments/actionLine.ftl"><br>
+</dev>
 <tr></tr>
 <table border="1">
     <tr>
