@@ -6,9 +6,7 @@
 </head>
 <body>
     <dev>
-        <a href="user">List users</a>
-        <br>
-        <a href="addUser">Add new user</a>
+        <#include "fragments/actionLine.ftl">
     </dev>
 </body>
 </html>

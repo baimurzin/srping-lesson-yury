@@ -7,27 +7,15 @@
 </head>
 <body>
 <script src="/js/validationUserFormInput.js"></script>
+    <dev>
+            <#include "fragments/actionLine.ftl"><br>
+    </dev>
     <div>
         <legend>Add user</legend>
             <br>
         <fieldset>
             <form onsubmit="return validateUser()" action="/addUser" name="User" method="post">
-                <label>Name:
-                    <input id="name" name="name" type="text">
-                    <br>
-                     <#if nameError??>
-                        ${nameError}
-                    </#if>
-                    <p id="errName" style="color: red"></p>
-                    <br>
-                <label>Age:
-                    <input id="age" name="age" type="number">
-                    <br>
-                     <#if ageError??>
-                          ${ageError}
-                     </#if>
-                    <p id="errAge" style="color: red"></p>
-                    <br>
+                <#include "fragments/formUserInput.ftl">
                 <input type="submit" value="Add" />
             </form>
         </fieldset>

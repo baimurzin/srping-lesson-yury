@@ -5,9 +5,10 @@
     <title>List users</title>
 </head>
 <body>
-<br><br>
+<dev>
+    <#include "fragments/actionLine.ftl"><br>
+</dev>
 <tr></tr>
-
     <table border="1">
         <tr>
             <th>id</th>
@@ -38,6 +39,5 @@
     </table>
 <br><br>
     <a href="addUser">Add new user</a>
-
 </body>
 </html>
